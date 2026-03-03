@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/bottom_nav.dart';
 import 'home/home_screen.dart';
-import 'drive/drive_screen.dart';
+import 'claim/my_claims_screen.dart';
 import 'wallet/wallet_screen.dart';
 import 'beli/beli_screen.dart';
 import 'setting/setting_screen.dart';
@@ -18,7 +18,7 @@ class _MainShellState extends State<MainShell> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    DriveScreen(),
+    MyClaimsScreen(),
     WalletScreen(),
     BeliScreen(),
     SettingScreen(),

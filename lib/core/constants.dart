@@ -1,11 +1,16 @@
 class MockData {
-  static const List<Map<String, String>> vehicles = [
+  static const List<Map<String, dynamic>> vehicles = [
     {
       'brand': 'Toyota',
       'model': 'Avanza 1.5 G',
       'plate': 'B 1234 ABC',
       'tier': 'Premium',
       'year': '2023',
+      'premium': '1,200,000',
+      'startDate': '1 Jan 2026',
+      'endDate': '1 Jan 2027',
+      'daysLeft': 304,
+      'coverage': '200 Juta',
     },
     {
       'brand': 'Honda',
@@ -13,6 +18,11 @@ class MockData {
       'plate': 'B 5678 DEF',
       'tier': 'Plus',
       'year': '2022',
+      'premium': '850,000',
+      'startDate': '15 Mar 2026',
+      'endDate': '15 Mar 2027',
+      'daysLeft': 377,
+      'coverage': '100 Juta',
     },
     {
       'brand': 'Suzuki',
@@ -20,6 +30,11 @@ class MockData {
       'plate': 'D 9012 GHI',
       'tier': 'Basic',
       'year': '2024',
+      'premium': '500,000',
+      'startDate': '1 Feb 2026',
+      'endDate': '1 Feb 2027',
+      'daysLeft': 335,
+      'coverage': '50 Juta',
     },
   ];
 
@@ -179,36 +194,56 @@ class MockData {
     },
   ];
 
-  static const List<Map<String, dynamic>> activePolicies = [
+  static const List<Map<String, dynamic>> activeClaims = [
     {
+      'claimId': '#0059',
       'vehicle': 'Toyota Avanza 1.5 G',
       'plate': 'B 1234 ABC',
-      'tier': 'Premium',
-      'premium': '1,200,000',
-      'startDate': '1 Jan 2026',
-      'endDate': '1 Jan 2027',
-      'daysLeft': 304,
-      'coverage': '200 Juta',
+      'type': 'Tabrakan Depan',
+      'currentStep': 2,
+      'estimatedTime': '2-4 jam',
+      'amount': '15,000,000',
+      'date': '3 Mar 2026',
     },
     {
+      'claimId': '#0061',
       'vehicle': 'Honda HR-V SE',
       'plate': 'B 5678 DEF',
-      'tier': 'Plus',
-      'premium': '850,000',
-      'startDate': '15 Mar 2026',
-      'endDate': '15 Mar 2027',
-      'daysLeft': 377,
-      'coverage': '100 Juta',
+      'type': 'Kerusakan Banjir',
+      'currentStep': 1,
+      'estimatedTime': '4-6 jam',
+      'amount': '8,500,000',
+      'date': '2 Mar 2026',
+    },
+  ];
+
+  static const List<Map<String, dynamic>> claimHistory = [
+    {
+      'claimId': '#0042',
+      'vehicle': 'Toyota Avanza 1.5 G',
+      'plate': 'B 1234 ABC',
+      'type': 'Tabrakan Belakang',
+      'result': 'Disetujui',
+      'amount': '15,000,000',
+      'date': '20 Feb 2026',
     },
     {
+      'claimId': '#0035',
+      'vehicle': 'Honda HR-V SE',
+      'plate': 'B 5678 DEF',
+      'type': 'Goresan Bodi',
+      'result': 'Ditolak',
+      'amount': '3,200,000',
+      'date': '5 Jan 2026',
+    },
+    {
+      'claimId': '#0028',
       'vehicle': 'Suzuki Ertiga GX',
       'plate': 'D 9012 GHI',
-      'tier': 'Basic',
-      'premium': '500,000',
-      'startDate': '1 Feb 2026',
-      'endDate': '1 Feb 2027',
-      'daysLeft': 335,
-      'coverage': '50 Juta',
+      'type': 'Pecah Kaca',
+      'result': 'Disetujui',
+      'amount': '4,800,000',
+      'date': '15 Dec 2025',
     },
   ];
 

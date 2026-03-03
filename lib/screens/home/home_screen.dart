@@ -8,8 +8,38 @@ import '../notifications/notification_screen.dart';
 import '../claim/camera_screen.dart';
 import '../deliberation/deliberation_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  // Simulated driving mode
+  final bool _isDriving = true;
+  late AnimationController _pulseController;
+  late AnimationController _bannerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+    _bannerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    _bannerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +54,7 @@ class HomeScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -97,12 +127,78 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
+
+                // ── Driving Mode Banner ──
+                if (_isDriving)
+                  AnimatedBuilder(
+                    animation: _bannerController,
+                    builder: (context, _) {
+                      final opacity = 0.7 + (_bannerController.value * 0.3);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Opacity(
+                          opacity: opacity,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.success.withValues(alpha: 0.15),
+                                  AppColors.cyanAccent.withValues(alpha: 0.08),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.success.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.success,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  '🚗 Mode Berkendara Aktif',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.success,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _MiniMetric(label: 'G', value: '0.12'),
+                                    const SizedBox(width: 8),
+                                    _MiniMetric(label: 'km/h', value: '42'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                if (_isDriving) const SizedBox(height: 16),
+
                 // Driving Score
                 const _DrivingScoreWidget(),
                 const SizedBox(height: 24),
 
-                // ── Polis Aktif ──
+                // ── Kendaraan & Polis ──
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -114,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Polis Aktif',
+                        'Kendaraan & Polis',
                         style: GoogleFonts.inter(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -125,7 +221,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...MockData.activePolicies.map((p) => _PolicyCard(policy: p)),
+                ...MockData.vehicles.map((v) => _VehiclePolisCard(vehicle: v)),
                 const SizedBox(height: 24),
 
                 // ── Ruang Sidang Aktif ──
@@ -173,25 +269,9 @@ class HomeScreen extends StatelessWidget {
                 ...MockData.activeDeliberations.map(
                   (d) => _DeliberationCard(deliberation: d),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
-                // ── Kendaraan Terdaftar ──
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Kendaraan Terdaftar',
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                // Vehicle cards
-                ...MockData.vehicles.map((v) => _VehicleCard(vehicle: v)),
-                const SizedBox(height: 16),
-                // Quick report button
+                // Lapor Insiden button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GestureDetector(
@@ -239,10 +319,99 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      // SOS FAB — only when driving
+      floatingActionButton: _isDriving
+          ? AnimatedBuilder(
+              animation: _pulseController,
+              builder: (context, _) {
+                final scale = 1.0 + (_pulseController.value * 0.06);
+                return Transform.scale(
+                  scale: scale,
+                  child: SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CameraScreen()),
+                      ),
+                      child: Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: AppColors.dangerGradient,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.danger.withValues(
+                                alpha: 0.3 + _pulseController.value * 0.25,
+                              ),
+                              blurRadius: 16 + (_pulseController.value * 12),
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.sos_rounded,
+                              size: 24,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'SOS',
+                              style: GoogleFonts.inter(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+          : null,
     );
   }
 }
 
+// ── Mini metric for driving banner ──
+class _MiniMetric extends StatelessWidget {
+  final String label;
+  final String value;
+  const _MiniMetric({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: AppColors.cyanAccent,
+          ),
+        ),
+        const SizedBox(width: 2),
+        Text(
+          label,
+          style: GoogleFonts.inter(fontSize: 10, color: AppColors.textMuted),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Driving Score Ring ──
 class _DrivingScoreWidget extends StatelessWidget {
   const _DrivingScoreWidget();
 
@@ -341,7 +510,6 @@ class _ScoreRingPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 - 6;
 
-    // Background ring
     canvas.drawCircle(
       center,
       radius,
@@ -351,7 +519,6 @@ class _ScoreRingPainter extends CustomPainter {
         ..strokeWidth = 8,
     );
 
-    // Progress arc
     final gradient = SweepGradient(
       startAngle: -pi / 2,
       endAngle: 3 * pi / 2,
@@ -376,87 +543,7 @@ class _ScoreRingPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-class _VehicleCard extends StatelessWidget {
-  final Map<String, String> vehicle;
-
-  const _VehicleCard({required this.vehicle});
-
-  Color get _tierColor {
-    switch (vehicle['tier']) {
-      case 'Premium':
-        return const Color(0xFFFFD700);
-      case 'Plus':
-        return AppColors.purpleAccent;
-      default:
-        return AppColors.info;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GlassCard(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: _tierColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              Icons.directions_car_rounded,
-              color: _tierColor,
-              size: 28,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${vehicle['brand']} ${vehicle['model']}',
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${vehicle['plate']} · ${vehicle['year']}',
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    color: AppColors.textMuted,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: _tierColor.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              vehicle['tier']!,
-              style: GoogleFonts.inter(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: _tierColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
+// ── Tier color helper ──
 Color _tierColor(String? tier) {
   switch (tier) {
     case 'Premium':
@@ -468,37 +555,42 @@ Color _tierColor(String? tier) {
   }
 }
 
-class _PolicyCard extends StatelessWidget {
-  final Map<String, dynamic> policy;
+// ── Merged Vehicle + Polis Card ──
+class _VehiclePolisCard extends StatelessWidget {
+  final Map<String, dynamic> vehicle;
 
-  const _PolicyCard({required this.policy});
+  const _VehiclePolisCard({required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
-    final tier = policy['tier'] as String;
+    final tier = vehicle['tier'] as String;
     final color = _tierColor(tier);
-    final daysLeft = policy['daysLeft'] as int;
+    final daysLeft = vehicle['daysLeft'] as int;
     final progress = daysLeft / 365;
     final isExpiringSoon = daysLeft <= 30;
 
     return GlassCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       padding: const EdgeInsets.all(16),
-      borderColor: color.withValues(alpha: 0.15),
+      borderColor: color.withValues(alpha: 0.12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top row: vehicle name + tier badge
+          // Vehicle info row
           Row(
             children: [
               Container(
-                width: 40,
-                height: 40,
+                width: 46,
+                height: 46,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(Icons.shield_rounded, color: color, size: 22),
+                child: Icon(
+                  Icons.directions_car_rounded,
+                  color: color,
+                  size: 26,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -506,15 +598,16 @@ class _PolicyCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      policy['vehicle'] as String,
+                      '${vehicle['brand']} ${vehicle['model']}',
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary,
                       ),
                     ),
+                    const SizedBox(height: 2),
                     Text(
-                      policy['plate'] as String,
+                      '${vehicle['plate']} · ${vehicle['year']}',
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: AppColors.textMuted,
@@ -543,22 +636,43 @@ class _PolicyCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
-          // Coverage + dates
+          const SizedBox(height: 12),
+          // Policy info
           Row(
             children: [
-              _InfoChip(
-                icon: Icons.security_rounded,
-                label: 'Cover ${policy['coverage']}',
+              Icon(
+                Icons.security_rounded,
+                size: 13,
+                color: AppColors.textMuted,
               ),
-              const SizedBox(width: 10),
-              _InfoChip(
-                icon: Icons.calendar_today_rounded,
-                label: '${policy['startDate']} → ${policy['endDate']}',
+              const SizedBox(width: 4),
+              Text(
+                'Cover ${vehicle['coverage']}',
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Icon(
+                Icons.calendar_today_rounded,
+                size: 12,
+                color: AppColors.textMuted,
+              ),
+              const SizedBox(width: 4),
+              Flexible(
+                child: Text(
+                  '${vehicle['startDate']} → ${vehicle['endDate']}',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    color: AppColors.textSecondary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           // Days left progress
           Row(
             children: [
@@ -567,7 +681,7 @@ class _PolicyCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: progress.clamp(0.0, 1.0),
-                    minHeight: 6,
+                    minHeight: 5,
                     backgroundColor: AppColors.surfaceLight,
                     valueColor: AlwaysStoppedAnimation<Color>(
                       isExpiringSoon ? AppColors.danger : AppColors.success,
@@ -592,34 +706,7 @@ class _PolicyCard extends StatelessWidget {
   }
 }
 
-class _InfoChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoChip({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 13, color: AppColors.textMuted),
-        const SizedBox(width: 4),
-        Flexible(
-          child: Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 11,
-              color: AppColors.textSecondary,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
+// ── Deliberation Card ──
 class _DeliberationCard extends StatelessWidget {
   final Map<String, dynamic> deliberation;
 
@@ -651,7 +738,6 @@ class _DeliberationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top row
           Row(
             children: [
               Container(
@@ -718,7 +804,6 @@ class _DeliberationCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          // Juror progress + time left
           Row(
             children: [
               Expanded(
@@ -735,7 +820,7 @@ class _DeliberationCard extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        Icon(
+                        const Icon(
                           Icons.timer_outlined,
                           size: 13,
                           color: AppColors.textMuted,
@@ -757,7 +842,7 @@ class _DeliberationCard extends StatelessWidget {
                         value: progress.clamp(0.0, 1.0),
                         minHeight: 5,
                         backgroundColor: AppColors.surfaceLight,
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.purpleAccent,
                         ),
                       ),
