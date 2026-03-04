@@ -31,7 +31,7 @@ class BeliScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pilih Paket',
+                        'Pilih Tier Perlindungan',
                         style: GoogleFonts.inter(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
@@ -40,10 +40,60 @@ class BeliScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Lindungi kendaraan Anda dengan asuransi Web3',
+                        'Lindungi kendaraan Anda dengan perlindungan komunitas Web3',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Discount Banner
+                GlassCard(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  borderColor: AppColors.cyanAccent.withValues(alpha: 0.2),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.cyanAccent.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Icons.discount_rounded,
+                          size: 20,
+                          color: AppColors.cyanAccent,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Skor Mengemudi: ${MockData.drivingScore}/100',
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              'Anda mendapat diskon ${MockData.contributionDiscount}% kontribusi!',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppColors.cyanAccent,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -91,6 +141,17 @@ class _TierCard extends StatelessWidget {
   }
 
   bool get _isPopular => tier['name'] == 'Plus';
+
+  String _discountedPrice(String price) {
+    final parsed = int.parse(price.replaceAll(',', ''));
+    final discounted = (parsed * (1 - MockData.contributionDiscount / 100))
+        .round();
+    final formatted = discounted.toString().replaceAllMapped(
+      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+      (m) => '${m[1]},',
+    );
+    return formatted;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +219,17 @@ class _TierCard extends StatelessWidget {
                     Text(
                       '${tier['price']}',
                       style: GoogleFonts.inter(
-                        fontSize: 24,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textMuted,
+                        decoration: TextDecoration.lineThrough,
+                        decorationColor: AppColors.textMuted,
+                      ),
+                    ),
+                    Text(
+                      _discountedPrice(tier['price'] as String),
+                      style: GoogleFonts.inter(
+                        fontSize: 22,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
                       ),
@@ -230,7 +301,7 @@ class _TierCard extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      'Pilih Paket',
+                      'Pilih Tier',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontSize: 15,

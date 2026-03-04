@@ -183,6 +183,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     _MiniMetric(label: 'G', value: '0.12'),
                                     const SizedBox(width: 8),
                                     _MiniMetric(label: 'km/h', value: '42'),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.cyanAccent.withValues(
+                                          alpha: 0.15,
+                                        ),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.verified_user_rounded,
+                                            size: 10,
+                                            color: AppColors.cyanAccent,
+                                          ),
+                                          const SizedBox(width: 3),
+                                          Text(
+                                            'DePIN',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.w700,
+                                              color: AppColors.cyanAccent,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -210,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Kendaraan & Polis',
+                        'Kendaraan & Perlindungan',
                         style: GoogleFonts.inter(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -492,6 +524,44 @@ class _DrivingScoreWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.cyanAccent.withValues(alpha: 0.15),
+                        AppColors.indigoPrimary.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: AppColors.cyanAccent.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.discount_rounded,
+                        size: 14,
+                        color: AppColors.cyanAccent,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Diskon ${MockData.contributionDiscount}% Kontribusi',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.cyanAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -647,7 +717,7 @@ class _VehiclePolisCard extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(
-                'Cover ${vehicle['coverage']}',
+                'Bantuan ${vehicle['coverage']}',
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   color: AppColors.textSecondary,
@@ -760,12 +830,15 @@ class _DeliberationCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'Klaim ${deliberation['claimId']}',
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                        Flexible(
+                          child: Text(
+                            'Permohonan ${deliberation['claimId']}',
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textPrimary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 8),

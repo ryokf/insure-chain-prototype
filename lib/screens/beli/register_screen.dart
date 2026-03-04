@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
+import '../../core/constants.dart';
 import '../../widgets/glass_card.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -176,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          'Rincian Pembayaran',
+                          'Rincian Membership Contribution',
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -190,8 +191,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Column(
                           children: [
                             _CheckoutRow(
-                              label: 'Paket ${widget.tierName}',
+                              label: 'Kontribusi ${widget.tierName}',
                               value: '${widget.price} IDRT',
+                            ),
+                            const Divider(
+                              color: AppColors.surfaceLight,
+                              height: 24,
+                            ),
+                            _CheckoutRow(
+                              label:
+                                  'Diskon Skor (${MockData.contributionDiscount}%)',
+                              value: '-${_discountAmount()} IDRT',
+                              valueColor: AppColors.success,
                             ),
                             const Divider(
                               color: AppColors.surfaceLight,
@@ -222,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Pembayaran Web3 dikonfirmasi!',
+                                  'Kontribusi Web3 dikonfirmasi!',
                                   style: GoogleFonts.inter(),
                                 ),
                                 backgroundColor: AppColors.success,
@@ -262,7 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Konfirmasi Pembayaran Web3',
+                                  'Konfirmasi Kontribusi Web3',
                                   style: GoogleFonts.inter(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,

@@ -40,8 +40,8 @@ class BottomNav extends StatelessWidget {
                 onTap: onTap,
               ),
               _NavItem(
-                icon: Icons.description_rounded,
-                label: 'Klaim',
+                icon: Icons.health_and_safety_rounded,
+                label: 'Bantuan',
                 index: 1,
                 currentIndex: currentIndex,
                 onTap: onTap,

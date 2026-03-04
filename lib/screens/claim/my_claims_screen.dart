@@ -30,13 +30,13 @@ class MyClaimsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
-                        Icons.description_rounded,
+                        Icons.health_and_safety_rounded,
                         color: AppColors.cyanAccent,
                         size: 24,
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Klaim Saya',
+                        'Permohonan Bantuan',
                         style: GoogleFonts.inter(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
@@ -83,8 +83,8 @@ class MyClaimsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                       tabs: const [
-                        Tab(text: 'Klaim Aktif'),
-                        Tab(text: 'Riwayat Klaim'),
+                        Tab(text: 'Permohonan Aktif'),
+                        Tab(text: 'Riwayat'),
                       ],
                     ),
                   ),
@@ -122,7 +122,7 @@ class _ActiveClaimsTab extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Tidak ada klaim aktif',
+              'Tidak ada permohonan aktif',
               style: GoogleFonts.inter(
                 fontSize: 16,
                 color: AppColors.textMuted,
@@ -149,23 +149,33 @@ class _ActiveClaimCard extends StatelessWidget {
 
   static const List<Map<String, dynamic>> _steps = [
     {
-      'title': 'Laporan Diterima',
-      'subtitle': 'Foto & kronologi diterima sistem',
-      'icon': Icons.receipt_long_rounded,
+      'title': 'Laporan & Deteksi AI',
+      'subtitle': 'Sensor DePIN + AI Anti-Spoofing',
+      'icon': Icons.sensors_rounded,
     },
     {
-      'title': 'Dianalisis AI',
-      'subtitle': 'Computer Vision memverifikasi bukti',
+      'title': 'Verifikasi Pathfinder',
+      'subtitle': 'Saksi Tier 1 konfirmasi lokasi',
+      'icon': Icons.people_alt_rounded,
+    },
+    {
+      'title': 'Sintesis AI',
+      'subtitle': 'Gemini hasilkan Executive Summary',
       'icon': Icons.smart_toy_rounded,
     },
     {
-      'title': 'Voting DAO Juri',
-      'subtitle': 'Dewan Guardian deliberasi klaim',
+      'title': 'Investigasi Guardian',
+      'subtitle': 'Deliberation Room + AI Summary',
       'icon': Icons.gavel_rounded,
     },
     {
-      'title': 'Dana Dicairkan',
-      'subtitle': 'Transfer otomatis ke wallet',
+      'title': 'Konsensus & Reward',
+      'subtitle': 'Voting Schelling Point',
+      'icon': Icons.how_to_vote_rounded,
+    },
+    {
+      'title': 'Community Aid Transfer',
+      'subtitle': 'Smart contract transfer ke wallet',
       'icon': Icons.account_balance_wallet_rounded,
     },
   ];
@@ -205,7 +215,7 @@ class _ActiveClaimCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Klaim ${claim['claimId']}',
+                          'Permohonan ${claim['claimId']}',
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -442,7 +452,7 @@ class _ClaimHistoryTab extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Belum ada riwayat klaim',
+              'Belum ada riwayat permohonan',
               style: GoogleFonts.inter(
                 fontSize: 16,
                 color: AppColors.textMuted,
@@ -499,12 +509,15 @@ class _HistoryClaimCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      'Klaim ${claim['claimId']}',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                    Flexible(
+                      child: Text(
+                        'Permohonan ${claim['claimId']}',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),

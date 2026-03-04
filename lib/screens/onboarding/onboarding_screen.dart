@@ -18,23 +18,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<_OnboardingData> _pages = [
     _OnboardingData(
       icon: Icons.shield_rounded,
-      title: 'Asuransi Web3\nTransparan',
+      title: 'Perlindungan Web3\nTransparan',
       subtitle:
-          'Semua proses klaim tercatat di blockchain.\nTidak ada birokrasi tersembunyi.',
+          'Semua proses bantuan tercatat di blockchain.\nTidak ada birokrasi tersembunyi.',
       gradient: [AppColors.indigoStart, AppColors.indigoPrimary],
     ),
     _OnboardingData(
       icon: Icons.speed_rounded,
       title: 'Dapat Diskon dengan\nMenyetir Aman',
       subtitle:
-          'Sensor telematika memantau gaya mengemudi.\nSkor tinggi = premi lebih murah.',
+          'Sensor telematika memantau gaya mengemudi.\nSkor tinggi = kontribusi lebih murah.',
       gradient: [AppColors.cyanAccent, const Color(0xFF06B6D4)],
     ),
     _OnboardingData(
       icon: Icons.gavel_rounded,
-      title: 'Jadilah Juri dan\nDapatkan IDRT',
+      title: 'Jadilah Guardian dan\nDapatkan IDRT',
       subtitle:
-          'Bergabung sebagai Guardian.\nVerifikasi klaim & dapatkan reward token.',
+          'Bergabung sebagai Guardian.\nInvestigasi permohonan & dapatkan reward token.',
       gradient: [AppColors.purpleAccent, const Color(0xFF8B5CF6)],
     ),
   ];

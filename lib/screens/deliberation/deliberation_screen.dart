@@ -105,7 +105,7 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        'Klaim #0058',
+                        'Permohonan #0058',
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -161,7 +161,7 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // AI Analysis
+                      // AI Executive Summary (Fase 4)
                       GlassCard(
                         padding: const EdgeInsets.all(16),
                         borderColor: AppColors.cyanAccent.withValues(
@@ -181,33 +181,270 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                     gradient: AppColors.primaryGradient,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Text(
-                                    'AI Gemini',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.auto_awesome,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'AI Gemini',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Analisis Otomatis',
+                                  'Executive Summary',
                                   style: GoogleFonts.inter(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.textPrimary,
                                   ),
                                 ),
+                                const Spacer(),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.success.withValues(
+                                      alpha: 0.15,
+                                    ),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    '${MockData.aiExecutiveSummary['confidenceScore']}%',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.success,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
+
+                            // Kronologi
+                            _SummarySection(
+                              icon: Icons.timeline_rounded,
+                              title: 'Ringkasan Kronologi',
+                              color: AppColors.cyanAccent,
+                            ),
+                            const SizedBox(height: 6),
                             Text(
-                              'Kerusakan pada bumper depan terdeteksi konsisten dengan tabrakan frontal berkecepatan rendah (~30km/h). Kecocokan foto acuan vs foto kecelakaan: 94%. Kronologi sesuai dengan data GPS dan timestamp. Rekomendasi: LAYAK untuk disetujui.',
+                              MockData.aiExecutiveSummary['kronologi']
+                                  as String,
                               style: GoogleFonts.inter(
-                                fontSize: 13,
+                                fontSize: 12,
                                 color: AppColors.textSecondary,
                                 height: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 14),
+
+                            // Severity + Pathfinder Row
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surfaceLight,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Keparahan',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 3,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.warning.withValues(
+                                              alpha: 0.15,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              6,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${MockData.aiExecutiveSummary['severity']} (${MockData.aiExecutiveSummary['severityScore']}/10)',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                              color: AppColors.warning,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surfaceLight,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Pathfinder',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '${MockData.aiExecutiveSummary['pathfinderVerified']}/${MockData.aiExecutiveSummary['pathfinderTotal']} Saksi ✓',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.success,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surfaceLight,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Sensor',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Cocok ✓',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.success,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+
+                            // Inkonsistensi
+                            _SummarySection(
+                              icon: Icons.warning_amber_rounded,
+                              title: 'Deteksi Inkonsistensi',
+                              color: AppColors.warning,
+                            ),
+                            const SizedBox(height: 6),
+                            ...(MockData.aiExecutiveSummary['inconsistencies']
+                                    as List<dynamic>)
+                                .map(
+                                  (item) => Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.only(bottom: 4),
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.warning.withValues(
+                                        alpha: 0.06,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.warning.withValues(
+                                          alpha: 0.15,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      '⚠ $item',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        color: AppColors.textSecondary,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            const SizedBox(height: 14),
+
+                            // Recommendation
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.success.withValues(alpha: 0.1),
+                                    AppColors.cyanAccent.withValues(
+                                      alpha: 0.05,
+                                    ),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: AppColors.success.withValues(
+                                    alpha: 0.2,
+                                  ),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.recommend_rounded,
+                                    size: 18,
+                                    color: AppColors.success,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Rekomendasi: ',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    MockData.aiExecutiveSummary['recommendation']
+                                        as String,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.success,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -220,7 +457,7 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                         child: Row(
                           children: [
                             Text(
-                              'Diskusi Juri',
+                              'Diskusi Guardian',
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -274,7 +511,7 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Berikan keputusan Anda untuk klaim ini',
+                              'Berikan keputusan Anda untuk permohonan ini',
                               style: GoogleFonts.inter(
                                 fontSize: 13,
                                 color: AppColors.textMuted,
@@ -444,6 +681,157 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.success,
                                   ),
+                                ),
+                              ),
+                            ],
+                            if (_hasVoted) ...[
+                              const SizedBox(height: 16),
+                              // Schelling Point Reward Card
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      AppColors.success.withValues(alpha: 0.08),
+                                      AppColors.cyanAccent.withValues(
+                                        alpha: 0.05,
+                                      ),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: AppColors.success.withValues(
+                                      alpha: 0.2,
+                                    ),
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.emoji_events_rounded,
+                                          size: 20,
+                                          color: AppColors.warning,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          'Schelling Point Reward',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.textPrimary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.surfaceLight,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Hasil Konsensus',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  color:
+                                                      AppColors.textSecondary,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Mayoritas: Approve',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: AppColors.success,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Posisi Anda',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  color:
+                                                      AppColors.textSecondary,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 2,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.success
+                                                      .withValues(alpha: 0.15),
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Text(
+                                                  '✓ Mayoritas',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColors.success,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Reward Anda',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  color:
+                                                      AppColors.textSecondary,
+                                                ),
+                                              ),
+                                              Text(
+                                                '+50,000 IDRT',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w800,
+                                                  color: AppColors.success,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      '💡 Schelling Point: Guardian yang memilih sesuai mayoritas mendapat reward. Mekanisme ini mendorong pencarian kebenaran objektif.',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 11,
+                                        color: AppColors.textMuted,
+                                        fontStyle: FontStyle.italic,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -645,6 +1033,37 @@ class _ChatBubble extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+// ── Summary Section Header ──
+class _SummarySection extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final Color color;
+
+  const _SummarySection({
+    required this.icon,
+    required this.title,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 14, color: color),
+        const SizedBox(width: 6),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
+        ),
+      ],
     );
   }
 }

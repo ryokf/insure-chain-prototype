@@ -55,7 +55,7 @@ class ConnectWalletScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Pilih dompet kripto untuk masuk ke InsureChain',
+                  'Pilih dompet kripto untuk bergabung ke InsureChain',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 14,

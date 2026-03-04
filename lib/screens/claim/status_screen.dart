@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
+import '../../core/constants.dart';
 import '../../widgets/glass_card.dart';
 import '../deliberation/deliberation_screen.dart';
 
@@ -34,7 +35,7 @@ class StatusScreen extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
-                      'Status Klaim',
+                      'Status Permohonan',
                       style: GoogleFonts.inter(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -76,7 +77,7 @@ class StatusScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Klaim #0059',
+                                    'Permohonan #0059',
                                     style: GoogleFonts.inter(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
@@ -96,47 +97,174 @@ class StatusScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 16),
+
+                      // AI Anti-Spoofing Card
+                      GlassCard(
+                        padding: const EdgeInsets.all(16),
+                        borderColor: AppColors.success.withValues(alpha: 0.15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.success.withValues(
+                                      alpha: 0.15,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.verified_user_rounded,
+                                        size: 12,
+                                        color: AppColors.success,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'Anti-Spoofing',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.success,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  'Confidence: ${MockData.antiSpoofingResult['confidenceScore']}%',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.success,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                _InfoChip(
+                                  label: 'G-Force',
+                                  value:
+                                      '${MockData.antiSpoofingResult['gForce']}g',
+                                ),
+                                const SizedBox(width: 8),
+                                _InfoChip(
+                                  label: 'Klasifikasi',
+                                  value:
+                                      MockData.antiSpoofingResult['classification']
+                                          as String,
+                                ),
+                                const SizedBox(width: 8),
+                                _InfoChip(
+                                  label: 'Sensor',
+                                  value:
+                                      MockData.antiSpoofingResult['sensorStatus']
+                                          as String,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: 24),
+
                       // Step tracker
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Progres Klaim',
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Progres Permohonan',
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.warning.withValues(
+                                  alpha: 0.15,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                'Fase 4/6',
+                                style: GoogleFonts.inter(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.warning,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16),
                       _StepItem(
-                        title: 'Laporan Diterima',
-                        subtitle: 'Foto & kronologi telah diterima oleh sistem',
-                        time: '14:25',
+                        title: 'Laporan & Deteksi AI',
+                        subtitle:
+                            'Sensor G-Force + AI Anti-Spoofing memvalidasi insiden (Confidence: 92%)',
+                        time: '14:23',
                         status: _StepStatus.completed,
+                        icon: Icons.sensors_rounded,
                       ),
                       _StepItem(
-                        title: 'Sedang Dianalisis AI',
+                        title: 'Verifikasi Pathfinder',
                         subtitle:
-                            'Gemini AI sedang memverifikasi bukti foto dan kronologi',
-                        time: '14:30',
+                            '3 dari 4 saksi Tier 1 di sekitar lokasi mengkonfirmasi kecelakaan',
+                        time: '14:35',
                         status: _StepStatus.completed,
+                        icon: Icons.people_alt_rounded,
                       ),
                       _StepItem(
-                        title: 'Sedang Disidang Juri',
+                        title: 'Masa Tenang & Sintesis AI',
                         subtitle:
-                            '3 Guardian terpilih sedang membahas klaim Anda',
+                            'Gemini menghasilkan AI Executive Summary — kronologi, keparahan, inkonsistensi',
+                        time: '15:25',
+                        status: _StepStatus.completed,
+                        icon: Icons.smart_toy_rounded,
+                      ),
+                      _StepItem(
+                        title: 'Investigasi Guardian',
+                        subtitle:
+                            '5 Guardian terpilih membahas di Deliberation Room berdasarkan AI Summary',
                         time: 'Berlangsung',
                         status: _StepStatus.active,
+                        icon: Icons.gavel_rounded,
                       ),
                       _StepItem(
-                        title: 'Dana Ditransfer',
+                        title: 'Konsensus & Schelling Point',
                         subtitle:
-                            'Jika disetujui, dana akan otomatis ditransfer ke wallet Anda',
+                            'Voting mayoritas menentukan hasil. Guardian mayoritas terima reward.',
+                        time: '-',
+                        status: _StepStatus.pending,
+                        icon: Icons.how_to_vote_rounded,
+                      ),
+                      _StepItem(
+                        title: 'Community Aid Ditransfer',
+                        subtitle:
+                            'Jika disetujui, smart contract otomatis transfer dana ke wallet korban',
                         time: '-',
                         status: _StepStatus.pending,
                         isLast: true,
+                        icon: Icons.account_balance_wallet_rounded,
                       ),
                       const SizedBox(height: 24),
                       // Estimated time
@@ -214,6 +342,48 @@ class StatusScreen extends StatelessWidget {
   }
 }
 
+// ── Info Chip ──
+class _InfoChip extends StatelessWidget {
+  final String label;
+  final String value;
+  const _InfoChip({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceLight,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 10,
+                color: AppColors.textMuted,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 enum _StepStatus { completed, active, pending }
 
 class _StepItem extends StatelessWidget {
@@ -222,6 +392,7 @@ class _StepItem extends StatelessWidget {
   final String time;
   final _StepStatus status;
   final bool isLast;
+  final IconData icon;
 
   const _StepItem({
     required this.title,
@@ -229,6 +400,7 @@ class _StepItem extends StatelessWidget {
     required this.time,
     required this.status,
     this.isLast = false,
+    required this.icon,
   });
 
   Color get _dotColor {
@@ -295,16 +467,25 @@ class _StepItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          title,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: status == _StepStatus.pending
-                                ? AppColors.textMuted
-                                : AppColors.textPrimary,
+                        Icon(
+                          icon,
+                          size: 16,
+                          color: status == _StepStatus.pending
+                              ? AppColors.textMuted
+                              : _dotColor,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: status == _StepStatus.pending
+                                  ? AppColors.textMuted
+                                  : AppColors.textPrimary,
+                            ),
                           ),
                         ),
                         Text(

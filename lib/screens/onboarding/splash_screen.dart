@@ -110,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Web3 Vehicle Insurance',
+                  'Decentralized Mutual Aid',
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: AppColors.textMuted,

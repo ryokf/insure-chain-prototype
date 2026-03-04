@@ -48,14 +48,14 @@ class MockData {
     },
     {
       'type': 'premium',
-      'label': 'Bayar Iuran Premium',
+      'label': 'Kontribusi Keanggotaan',
       'amount': '-1,200,000',
       'date': '25 Feb 2026',
       'positive': false,
     },
     {
       'type': 'claim',
-      'label': 'Terima Klaim #0042',
+      'label': 'Community Aid #0042',
       'amount': '+15,000,000',
       'date': '20 Feb 2026',
       'positive': true,
@@ -85,25 +85,25 @@ class MockData {
 
   static const List<Map<String, dynamic>> notifications = [
     {
-      'title': 'Polis Akan Berakhir',
+      'title': 'Protection Status Akan Berakhir',
       'body':
-          'Polis kendaraan B 1234 ABC akan berakhir dalam 7 hari. Perpanjang sekarang.',
+          'Perlindungan kendaraan B 1234 ABC akan berakhir dalam 7 hari. Perpanjang sekarang.',
       'time': '2 jam lalu',
       'read': false,
       'type': 'warning',
     },
     {
-      'title': 'Undangan Juri',
+      'title': 'Undangan Guardian',
       'body':
-          'Anda terpilih sebagai juri untuk klaim #0058. Bergabunglah ke Ruang Sidang.',
+          'Anda terpilih sebagai Guardian untuk permohonan #0058. Bergabunglah ke Ruang Sidang.',
       'time': '5 jam lalu',
       'read': false,
       'type': 'jury',
     },
     {
-      'title': 'Klaim Disetujui',
+      'title': 'Permohonan Disetujui',
       'body':
-          'Klaim #0042 telah disetujui oleh Dewan Guardian. Dana sedang ditransfer.',
+          'Permohonan bantuan #0042 telah disetujui oleh Dewan Guardian. Community Aid sedang ditransfer.',
       'time': '1 hari lalu',
       'read': true,
       'type': 'success',
@@ -133,7 +133,7 @@ class MockData {
       'color': 'blue',
       'features': [
         'Perlindungan tabrakan dasar',
-        'Batas klaim 50 juta',
+        'Batas bantuan 50 juta',
         'Respon 48 jam',
       ],
     },
@@ -143,7 +143,7 @@ class MockData {
       'color': 'purple',
       'features': [
         'Perlindungan tabrakan + banjir',
-        'Batas klaim 100 juta',
+        'Batas bantuan 100 juta',
         'Respon 24 jam',
         'Mobil pengganti',
       ],
@@ -154,7 +154,7 @@ class MockData {
       'color': 'gold',
       'features': [
         'All-risk protection',
-        'Batas klaim 200 juta',
+        'Batas bantuan 200 juta',
         'Respon instan',
         'Mobil pengganti',
         'Concierge 24/7',
@@ -281,4 +281,33 @@ class MockData {
   static const String idrtBalance = '2,450,000';
   static const String insIdrtBalance = '1,200,000';
   static const int drivingScore = 87;
+  static const int contributionDiscount = 13; // Based on driving score 87
+
+  // AI Anti-Spoofing Result (Fase 2)
+  static const Map<String, dynamic> antiSpoofingResult = {
+    'confidenceScore': 92,
+    'classification': 'Tabrakan Asli',
+    'gForce': 4.8,
+    'sensorStatus': 'Verified',
+    'rejectionReason': null, // null = valid, otherwise string reason
+  };
+
+  // AI Executive Summary (Fase 4 — Gemini Output)
+  static const Map<String, dynamic> aiExecutiveSummary = {
+    'kronologi':
+        '14:22 — Korban melaju dengan kecepatan 35 km/h di Jl. Sudirman arah selatan. '
+        '14:23 — Kendaraan lain (plat B 9876 XYZ) keluar dari gang tanpa melihat kanan-kiri. '
+        '14:23 — Tabrakan terjadi di sisi bumper depan kiri. '
+        '14:25 — Korban mengaktifkan laporan melalui aplikasi InsureChain.',
+    'severity': 'Sedang',
+    'severityScore': 6.5,
+    'inconsistencies': [
+      'Saksi A menyebut tabrakan dari kanan, namun foto menunjukkan kerusakan di sisi kiri — kemungkinan perbedaan perspektif.',
+    ],
+    'confidenceScore': 88,
+    'pathfinderVerified': 3, // jumlah saksi yang memverifikasi
+    'pathfinderTotal': 4,
+    'sensorMatch': true,
+    'recommendation': 'LAYAK DISETUJUI',
+  };
 }
