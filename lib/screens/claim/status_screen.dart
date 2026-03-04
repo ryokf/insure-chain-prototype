@@ -205,7 +205,7 @@ class StatusScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                'Fase 4/6',
+                                'Fase 3/5',
                                 style: GoogleFonts.inter(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
@@ -232,14 +232,6 @@ class StatusScreen extends StatelessWidget {
                         time: '14:35',
                         status: _StepStatus.completed,
                         icon: Icons.people_alt_rounded,
-                      ),
-                      _StepItem(
-                        title: 'Masa Tenang & Sintesis AI',
-                        subtitle:
-                            'Gemini menghasilkan AI Executive Summary — kronologi, keparahan, inkonsistensi',
-                        time: '15:25',
-                        status: _StepStatus.completed,
-                        icon: Icons.smart_toy_rounded,
                       ),
                       _StepItem(
                         title: 'Investigasi Guardian',

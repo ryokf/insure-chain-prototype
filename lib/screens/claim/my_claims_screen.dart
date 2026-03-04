@@ -159,11 +159,6 @@ class _ActiveClaimCard extends StatelessWidget {
       'icon': Icons.people_alt_rounded,
     },
     {
-      'title': 'Sintesis AI',
-      'subtitle': 'Gemini hasilkan Executive Summary',
-      'icon': Icons.smart_toy_rounded,
-    },
-    {
       'title': 'Investigasi Guardian',
       'subtitle': 'Deliberation Room + AI Summary',
       'icon': Icons.gavel_rounded,
@@ -558,6 +553,18 @@ class _HistoryClaimCard extends StatelessWidget {
                     color: AppColors.textMuted,
                   ),
                 ),
+                if (result == 'Ditolak' &&
+                    claim.containsKey('rejectedAtStep')) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    'Ditolak pada tahap:\n${claim['rejectedAtStep']}',
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: AppColors.danger,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

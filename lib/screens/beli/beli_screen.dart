@@ -235,7 +235,7 @@ class _TierCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'IDRT/bulan',
+                      'IDRT / ${tier['duration']}',
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: AppColors.textMuted,
