@@ -298,12 +298,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _calculateTotal() {
     final price = int.parse(widget.price.replaceAll(',', ''));
-    final total = price + 25000;
+    final discount = (price * (MockData.contributionDiscount / 100)).round();
+    final total = price - discount + 25000;
     final formatted = total.toString().replaceAllMapped(
       RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
       (m) => '${m[1]},',
     );
     return '$formatted IDRT';
+  }
+
+  String _discountAmount() {
+    final price = int.parse(widget.price.replaceAll(',', ''));
+    final discount = (price * (MockData.contributionDiscount / 100)).round();
+    final formatted = discount.toString().replaceAllMapped(
+      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+      (m) => '${m[1]},',
+    );
+    return formatted;
   }
 }
 
@@ -352,11 +363,13 @@ class _CheckoutRow extends StatelessWidget {
   final String label;
   final String value;
   final bool isBold;
+  final Color? valueColor;
 
   const _CheckoutRow({
     required this.label,
     required this.value,
     this.isBold = false,
+    this.valueColor,
   });
 
   @override
@@ -377,7 +390,9 @@ class _CheckoutRow extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
-            color: isBold ? AppColors.cyanAccent : AppColors.textPrimary,
+            color:
+                valueColor ??
+                (isBold ? AppColors.cyanAccent : AppColors.textPrimary),
           ),
         ),
       ],

@@ -7,6 +7,7 @@ import '../../widgets/glass_card.dart';
 import '../notifications/notification_screen.dart';
 import '../claim/camera_screen.dart';
 import '../deliberation/deliberation_screen.dart';
+import '../pathfinder/pathfinder_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const NotificationScreen(),
+                            builder: (_) => const PathfinderScreen(),
                           ),
                         ),
                         child: Container(
