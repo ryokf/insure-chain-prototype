@@ -191,7 +191,7 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        'AI Gemini',
+                                        'AI',
                                         style: GoogleFonts.inter(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w700,
@@ -398,55 +398,6 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                     ),
                                   ),
                                 ),
-                            const SizedBox(height: 14),
-
-                            // Recommendation
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.success.withValues(alpha: 0.1),
-                                    AppColors.cyanAccent.withValues(
-                                      alpha: 0.05,
-                                    ),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: AppColors.success.withValues(
-                                    alpha: 0.2,
-                                  ),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.recommend_rounded,
-                                    size: 18,
-                                    color: AppColors.success,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Rekomendasi: ',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      color: AppColors.textSecondary,
-                                    ),
-                                  ),
-                                  Text(
-                                    MockData.aiExecutiveSummary['recommendation']
-                                        as String,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.success,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -573,17 +524,6 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                                   : Colors.white,
                                             ),
                                           ),
-                                          Text(
-                                            '$_approveCount suara',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              color: _hasVoted
-                                                  ? AppColors.textMuted
-                                                  : Colors.white.withValues(
-                                                      alpha: 0.7,
-                                                    ),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
@@ -641,17 +581,6 @@ class _DeliberationScreenState extends State<DeliberationScreen> {
                                               color: _hasVoted
                                                   ? AppColors.textMuted
                                                   : Colors.white,
-                                            ),
-                                          ),
-                                          Text(
-                                            '$_rejectCount suara',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              color: _hasVoted
-                                                  ? AppColors.textMuted
-                                                  : Colors.white.withValues(
-                                                      alpha: 0.7,
-                                                    ),
                                             ),
                                           ),
                                         ],

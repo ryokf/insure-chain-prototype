@@ -12,30 +12,30 @@ class MockData {
       'daysLeft': 304,
       'coverage': '200 Juta',
     },
-    {
-      'brand': 'Honda',
-      'model': 'HR-V SE',
-      'plate': 'B 5678 DEF',
-      'tier': 'Plus',
-      'year': '2022',
-      'premium': '850,000',
-      'startDate': '15 Mar 2026',
-      'endDate': '15 Mar 2027',
-      'daysLeft': 377,
-      'coverage': '100 Juta',
-    },
-    {
-      'brand': 'Suzuki',
-      'model': 'Ertiga GX',
-      'plate': 'D 9012 GHI',
-      'tier': 'Basic',
-      'year': '2024',
-      'premium': '500,000',
-      'startDate': '1 Feb 2026',
-      'endDate': '1 Feb 2027',
-      'daysLeft': 335,
-      'coverage': '50 Juta',
-    },
+    // {
+    //   'brand': 'Honda',
+    //   'model': 'HR-V SE',
+    //   'plate': 'B 5678 DEF',
+    //   'tier': 'Plus',
+    //   'year': '2022',
+    //   'premium': '850,000',
+    //   'startDate': '15 Mar 2026',
+    //   'endDate': '15 Mar 2027',
+    //   'daysLeft': 377,
+    //   'coverage': '100 Juta',
+    // },
+    // {
+    //   'brand': 'Suzuki',
+    //   'model': 'Ertiga GX',
+    //   'plate': 'D 9012 GHI',
+    //   'tier': 'Basic',
+    //   'year': '2024',
+    //   'premium': '500,000',
+    //   'startDate': '1 Feb 2026',
+    //   'endDate': '1 Feb 2027',
+    //   'daysLeft': 335,
+    //   'coverage': '50 Juta',
+    // },
   ];
 
   static const List<Map<String, dynamic>> transactions = [
@@ -192,7 +192,7 @@ class MockData {
     {
       'sender': 'Anda',
       'message':
-          'AI Gemini juga mengkonfirmasi kesesuaian antara deskripsi kronologi dan bukti foto. Saya vote Approve.',
+          'AI juga mengkonfirmasi kesesuaian antara deskripsi kronologi dan bukti foto. Saya vote Approve.',
       'time': '14:38',
       'isMe': true,
     },
@@ -304,7 +304,7 @@ class MockData {
     'rejectionReason': null, // null = valid, otherwise string reason
   };
 
-  // AI Executive Summary (Fase 4 — Gemini Output)
+  // AI Executive Summary (Fase 4 — AI Output)
   static const Map<String, dynamic> aiExecutiveSummary = {
     'kronologi':
         '14:22 — Korban melaju dengan kecepatan 35 km/h di Jl. Sudirman arah selatan. '
